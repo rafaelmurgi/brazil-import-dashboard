@@ -1,5 +1,6 @@
 import streamlit as st
 import pandas as pd
+import plotly.graph_objects as go
 
 st.set_page_config(
     page_title="Brazil Imports Intelligence Dashboard",
@@ -183,3 +184,97 @@ with col3:
         """,
         unsafe_allow_html=True
     )
+
+st.markdown("---")
+
+st.subheader(
+    "Brazil Imports: Historical Trends and Outlook (1997–2030)"
+)
+
+historical = fc[
+    fc["Type"] == "Historical"
+]
+
+forecast_data = pd.concat([
+
+    historical.tail(1),
+
+    fc[
+        fc["Type"] == "Forecast"
+    ]
+
+])
+
+fig = go.Figure()
+
+fig.add_trace(
+
+    go.Scatter(
+
+        x=historical["Year"],
+
+        y=historical["imports_usd_2025"],
+
+        mode="lines",
+
+        name="Historical",
+
+        line=dict(
+            color="#1f77b4",
+            width=3
+        )
+
+    )
+
+)
+
+fig.add_trace(
+
+    go.Scatter(
+
+        x=forecast_data["Year"],
+
+        y=forecast_data["Forecast"],
+
+        mode="lines",
+
+        name="Forecast",
+
+        line=dict(
+            color="#1f77b4",
+            width=3,
+            dash="dash"
+        )
+
+    )
+
+)
+
+fig.update_layout(
+
+    height=500,
+
+    xaxis_title="Year",
+
+    yaxis_title="USD mn",
+
+    template="plotly_white",
+
+    legend=dict(
+        orientation="h",
+        y=1.1
+    ),
+
+    margin=dict(
+        l=20,
+        r=20,
+        t=20,
+        b=20
+    )
+
+)
+
+st.plotly_chart(
+    fig,
+    use_container_width=True
+)
