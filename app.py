@@ -195,15 +195,18 @@ historical = fc[
     fc["Type"] == "Historical"
 ]
 
-forecast_data = pd.concat([
+forecast_only = fc[
+    fc["Type"] == "Forecast"
+].copy()
 
-    historical.tail(1),
+bridge_row = historical.tail(1).copy()
 
-    fc[
-        fc["Type"] == "Forecast"
-    ]
+bridge_row["Forecast"] = bridge_row["imports_usd_2025"]
 
-])
+forecast_data = pd.concat(
+    [bridge_row, forecast_only],
+    ignore_index=True
+)
 
 fig = go.Figure()
 
@@ -248,6 +251,13 @@ fig.add_trace(
 
     )
 
+)
+
+fig.add_vline(
+    x=2025,
+    line_width=1,
+    line_dash="dot",
+    line_color="gray"
 )
 
 fig.update_layout(
