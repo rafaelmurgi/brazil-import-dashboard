@@ -54,6 +54,10 @@ fc = forecast[
     forecast["NCM Code"] == selected_code
 ]
 
+if len(fc) == 0:
+    st.error("No forecast data available for this product.")
+    st.stop()
+
 # -----------------------
 # Product description
 # -----------------------
