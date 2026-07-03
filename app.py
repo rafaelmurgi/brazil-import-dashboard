@@ -91,9 +91,15 @@ else:
 
 st.markdown("---")
 
-st.subheader(
-    "Market Overview and Tariff Structure"
+col_left, col_center, col_right = st.columns(
+    [1.2, 1.4, 1.2]
 )
+
+with col_left:
+
+    st.subheader(
+        "Market Overview and Tariff Structure"
+    )
 
 finland_share = selected_row["Finland's share of Brazilian imports (%)"]
 
