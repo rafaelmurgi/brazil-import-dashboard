@@ -92,8 +92,12 @@ else:
 st.markdown("---")
 
 col_left, col_center, col_right = st.columns(
-    [1.2, 1.4, 1.2]
+    [1.2, 1.6, 1.2]
 )
+
+# ====================================
+# LEFT COLUMN
+# ====================================
 
 with col_left:
 
@@ -137,67 +141,42 @@ with col_left:
         use_container_width=True
     )
 
-st.markdown("---")
-
-with col_left:
-
     st.subheader(
         "Key Market Indicators"
     )
 
+    imports_2025 = fc.loc[
+        fc["Year"] == 2025,
+        "imports_usd_2025"
+    ].iloc[0]
 
-imports_2025 = fc.loc[
-    fc["Year"] == 2025,
-    "imports_usd_2025"
-].iloc[0]
+    forecast_2030 = fc.loc[
+        fc["Year"] == 2030,
+        "Forecast"
+    ].iloc[0]
 
-forecast_2030 = fc.loc[
-    fc["Year"] == 2030,
-    "Forecast"
-].iloc[0]
+    growth = (
+        (forecast_2030 / imports_2025) - 1
+    ) * 100
 
-growth = (
-    (forecast_2030 / imports_2025) - 1
-) * 100
-
-col1, col2, col3 = st.columns(3)
-
-with col1:
     st.metric(
         "Brazilian Imports (2025, USD mn)",
         f"{imports_2025:,.0f}"
     )
 
-with col2:
     st.metric(
         "Projected Imports (2030, USD mn)",
         f"{forecast_2030:,.0f}"
     )
 
-with col3:
-
-    if growth >= 0:
-        growth_color = "green"
-    else:
-        growth_color = "red"
-
-    st.markdown(
-        f"""
-        <div style='
-            padding:10px;
-            border:1px solid #d9d9d9;
-            border-radius:5px;
-        '>
-        <strong>Projected Change (2025–2030, %)</strong><br>
-        <span style='color:{growth_color}; font-size:24px;'>
-        {growth:.1f}%
-        </span>
-        </div>
-        """,
-        unsafe_allow_html=True
+    st.metric(
+        "Projected Change (2025–2030, %)",
+        f"{growth:.1f}%"
     )
 
-st.markdown("---")
+# ====================================
+# CENTER COLUMN
+# ====================================
 
 with col_center:
 
@@ -208,102 +187,77 @@ with col_center:
     historical = fc[
         fc["Type"] == "Historical"
     ]
-    
+
     forecast_only = fc[
         fc["Type"] == "Forecast"
     ].copy()
-    
+
     bridge_row = historical.tail(1).copy()
-    
+
     bridge_row["Forecast"] = bridge_row["imports_usd_2025"]
-    
+
     forecast_data = pd.concat(
         [bridge_row, forecast_only],
         ignore_index=True
     )
-    
+
     fig = go.Figure()
-    
+
     fig.add_trace(
-    
         go.Scatter(
-    
             x=historical["Year"],
-    
             y=historical["imports_usd_2025"],
-    
             mode="lines",
-    
             name="Historical",
-    
             line=dict(
                 color="#1f77b4",
                 width=3
             )
-    
         )
-    
     )
-    
+
     fig.add_trace(
-    
         go.Scatter(
-    
             x=forecast_data["Year"],
-    
             y=forecast_data["Forecast"],
-    
             mode="lines",
-    
             name="Forecast",
-    
             line=dict(
                 color="#1f77b4",
                 width=3,
                 dash="dash"
             )
-    
         )
-    
     )
-    
+
     fig.add_vline(
         x=2025,
         line_width=1,
         line_dash="dot",
         line_color="gray"
     )
-    
+
     fig.update_layout(
-    
-        height=500,
-    
+        height=350,
         xaxis_title="Year",
-    
         yaxis_title="USD mn",
-    
         template="plotly_white",
-    
-        legend=dict(
-            orientation="h",
-            y=1.1
-        ),
-    
         margin=dict(
             l=20,
             r=20,
             t=20,
             b=20
         )
-    
     )
 
-st.plotly_chart(
-    fig,
-    use_container_width=True
-)
+    st.plotly_chart(
+        fig,
+        use_container_width=True
+    )
 
-st.markdown("---")
+# ====================================
+# RIGHT COLUMN
+# ====================================
 
 with col_right:
 
@@ -340,12 +294,9 @@ with col_right:
         use_container_width=True
     )
 
-    st.metric(
-        "Sum of Top Suppliers",
-        f"{top5['average 2023-2025'].sum():,.1f}"
+    st.markdown(
+        f"**Sum of Top Suppliers:** {top5['average 2023-2025'].sum():,.1f}"
     )
-
-with col_right:
 
     st.subheader(
         "Global Supply Distribution (Average Imports, 2023–2025)"
@@ -369,8 +320,15 @@ with col_right:
 
     )
 
+    fig_map.update_geos(
+        showcountries=True,
+        showcoastlines=True,
+        showframe=False,
+        projection_type="natural earth"
+    )
+
     fig_map.update_layout(
-        height=500,
+        height=350,
         margin=dict(
             l=0,
             r=0,
