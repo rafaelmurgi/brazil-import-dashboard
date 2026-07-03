@@ -51,6 +51,14 @@ selected_row = consolidated[
 st.markdown(
     f"### {selected_row['NCM Description']}"
 )
+
+tariff = selected_row["Brazil applied tariff (%)"]
+
+if tariff == int(tariff):
+    tariff_display = f"{int(tariff)}"
+else:
+    tariff_display = f"{tariff:.1f}"
+
 st.markdown("---")
 
 st.subheader(
@@ -87,7 +95,7 @@ market_overview = pd.DataFrame({
 
         f"{finland_share:.1f}",
 
-        f"{selected_row['Brazil applied tariff (%)']:.1f}",
+        tariff_display,
 
         f"{selected_row['EU-Mercosur agreement base rate of Brazil']}",
 
