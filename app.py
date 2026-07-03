@@ -19,9 +19,13 @@ def load_data():
         "forecast_ncm_powerbi.csv"
     )
 
-    return consolidated, forecast
+    suppliers = pd.read_excel(
+        "imports_brazil_2023_2025_countries_origin_clean.xlsx"
+    )
 
-consolidated, forecast = load_data()
+    return consolidated, forecast, suppliers
+
+consolidated, forecast, suppliers = load_data()
 
 st.title(
     "Brazil Imports Intelligence Dashboard – Trade, Tariffs and Forecasts"
@@ -61,8 +65,14 @@ if len(fc) == 0:
     st.stop()
 
 sup = suppliers[
-    suppliers["NCM Code"] == selected_code
+    suppliers["NCM Code"].astype(str)
+    == str(selected_code)
 ]
+
+if len(sup) == 0:
+    st.warning(
+        "No supplier information available for this product."
+    )
 
 # -----------------------
 # Product description
