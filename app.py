@@ -51,7 +51,6 @@ selected_row = consolidated[
 st.markdown(
     f"### {selected_row['NCM Description']}"
 )
-
 st.markdown("---")
 
 st.subheader(
