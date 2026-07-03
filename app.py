@@ -1,6 +1,7 @@
 import streamlit as st
 import pandas as pd
 import plotly.graph_objects as go
+import plotly.express as px
 
 st.set_page_config(
     page_title="Brazil Imports Intelligence Dashboard",
@@ -58,6 +59,10 @@ fc = forecast[
 if len(fc) == 0:
     st.error("No forecast data available for this product.")
     st.stop()
+
+sup = suppliers[
+    suppliers["NCM Code"] == selected_code
+]
 
 # -----------------------
 # Product description
@@ -288,3 +293,86 @@ st.plotly_chart(
     fig,
     use_container_width=True
 )
+
+st.markdown("---")
+
+left_col, right_col = st.columns([1, 2])
+
+with left_col:
+
+    st.subheader(
+        "Top 5 Suppliers to Brazil (Average 2023–2025)"
+    )
+
+    top5 = (
+        sup.sort_values(
+            "average 2023-2025",
+            ascending=False
+        )
+        .head(5)
+    )
+
+    suppliers_display = top5[
+        ["Country", "average 2023-2025"]
+    ].copy()
+
+    suppliers_display.columns = [
+        "Country",
+        "Average imports (USD mn)"
+    ]
+
+    suppliers_display[
+        "Average imports (USD mn)"
+    ] = suppliers_display[
+        "Average imports (USD mn)"
+    ].round(1)
+
+    st.dataframe(
+        suppliers_display,
+        hide_index=True,
+        use_container_width=True
+    )
+
+    st.metric(
+        "Sum of Top Suppliers",
+        f"{top5['average 2023-2025'].sum():,.1f}"
+    )
+
+with right_col:
+
+    st.subheader(
+        "Global Supply Distribution (Average Imports, 2023–2025)"
+    )
+
+    map_data = sup.copy()
+
+    fig_map = px.choropleth(
+
+        map_data,
+
+        locations="Country",
+
+        locationmode="country names",
+
+        color="average 2023-2025",
+
+        hover_name="Country",
+
+        color_continuous_scale="Blues"
+
+    )
+
+    fig_map.update_layout(
+        height=500,
+        margin=dict(
+            l=0,
+            r=0,
+            t=20,
+            b=0
+        )
+    )
+
+    st.plotly_chart(
+        fig_map,
+        use_container_width=True
+    )
