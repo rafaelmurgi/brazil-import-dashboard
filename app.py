@@ -101,59 +101,50 @@ with col_left:
         "Market Overview and Tariff Structure"
     )
 
-finland_share = selected_row["Finland's share of Brazilian imports (%)"]
+    finland_share = selected_row["Finland's share of Brazilian imports (%)"]
 
-market_overview = pd.DataFrame({
+    market_overview = pd.DataFrame({
 
-    "Indicator": [
+        "Indicator": [
 
-        "Brazilian total annual imports (USD mn)",
+            "Brazilian total annual imports (USD mn)",
+            "Brazilian imports from Finland (USD mn)",
+            "Finland's share (%)",
+            "Brazil applied tariff (%)",
+            "EU-Mercosur base rate (%)",
+            "Tariff elimination timeline (years)",
+            "Note"
 
-        "Brazilian imports from Finland (USD mn)",
+        ],
 
-        "Finland's share (%)",
+        "Value": [
 
-        "Brazil applied tariff (%)",
+            f"{selected_row['Brazilian total annual imports - USD millions']:.1f}",
+            f"{selected_row['Brazilian annual imports from Finland - USD millions']:.1f}",
+            f"{finland_share:.1f}",
+            tariff_display,
+            f"{selected_row['EU-Mercosur agreement base rate of Brazil']}",
+            selected_row["Tariff elimination timeline (years)"],
+            selected_row["Note"]
 
-        "EU-Mercosur base rate (%)",
+        ]
 
-        "Tariff elimination timeline (years)",
+    })
 
-        "Note"
-
-    ],
-
-    "Value": [
-
-        f"{selected_row['Brazilian total annual imports - USD millions']:.1f}",
-
-        f"{selected_row['Brazilian annual imports from Finland - USD millions']:.1f}",
-
-        f"{finland_share:.1f}",
-
-        tariff_display,
-
-        f"{selected_row['EU-Mercosur agreement base rate of Brazil']}",
-
-        selected_row["Tariff elimination timeline (years)"],
-
-        selected_row["Note"]
-
-    ]
-
-})
-
-st.dataframe(
-    market_overview,
-    hide_index=True,
-    use_container_width=True
-)
+    st.dataframe(
+        market_overview,
+        hide_index=True,
+        use_container_width=True
+    )
 
 st.markdown("---")
 
-st.subheader(
-    "Key Market Indicators"
-)
+with col_left:
+
+    st.subheader(
+        "Key Market Indicators"
+    )
+
 
 imports_2025 = fc.loc[
     fc["Year"] == 2025,
@@ -208,102 +199,104 @@ with col3:
 
 st.markdown("---")
 
-st.subheader(
-    "Brazil Imports: Historical Trends and Outlook (1997–2030)"
-)
+with col_center:
 
-historical = fc[
-    fc["Type"] == "Historical"
-]
+    st.subheader(
+        "Brazil Imports: Historical Trends and Outlook (1997–2030)"
+    )
 
-forecast_only = fc[
-    fc["Type"] == "Forecast"
-].copy()
-
-bridge_row = historical.tail(1).copy()
-
-bridge_row["Forecast"] = bridge_row["imports_usd_2025"]
-
-forecast_data = pd.concat(
-    [bridge_row, forecast_only],
-    ignore_index=True
-)
-
-fig = go.Figure()
-
-fig.add_trace(
-
-    go.Scatter(
-
-        x=historical["Year"],
-
-        y=historical["imports_usd_2025"],
-
-        mode="lines",
-
-        name="Historical",
-
-        line=dict(
-            color="#1f77b4",
-            width=3
+    historical = fc[
+        fc["Type"] == "Historical"
+    ]
+    
+    forecast_only = fc[
+        fc["Type"] == "Forecast"
+    ].copy()
+    
+    bridge_row = historical.tail(1).copy()
+    
+    bridge_row["Forecast"] = bridge_row["imports_usd_2025"]
+    
+    forecast_data = pd.concat(
+        [bridge_row, forecast_only],
+        ignore_index=True
+    )
+    
+    fig = go.Figure()
+    
+    fig.add_trace(
+    
+        go.Scatter(
+    
+            x=historical["Year"],
+    
+            y=historical["imports_usd_2025"],
+    
+            mode="lines",
+    
+            name="Historical",
+    
+            line=dict(
+                color="#1f77b4",
+                width=3
+            )
+    
         )
-
+    
     )
-
-)
-
-fig.add_trace(
-
-    go.Scatter(
-
-        x=forecast_data["Year"],
-
-        y=forecast_data["Forecast"],
-
-        mode="lines",
-
-        name="Forecast",
-
-        line=dict(
-            color="#1f77b4",
-            width=3,
-            dash="dash"
+    
+    fig.add_trace(
+    
+        go.Scatter(
+    
+            x=forecast_data["Year"],
+    
+            y=forecast_data["Forecast"],
+    
+            mode="lines",
+    
+            name="Forecast",
+    
+            line=dict(
+                color="#1f77b4",
+                width=3,
+                dash="dash"
+            )
+    
         )
-
+    
     )
-
-)
-
-fig.add_vline(
-    x=2025,
-    line_width=1,
-    line_dash="dot",
-    line_color="gray"
-)
-
-fig.update_layout(
-
-    height=500,
-
-    xaxis_title="Year",
-
-    yaxis_title="USD mn",
-
-    template="plotly_white",
-
-    legend=dict(
-        orientation="h",
-        y=1.1
-    ),
-
-    margin=dict(
-        l=20,
-        r=20,
-        t=20,
-        b=20
+    
+    fig.add_vline(
+        x=2025,
+        line_width=1,
+        line_dash="dot",
+        line_color="gray"
     )
-
-)
+    
+    fig.update_layout(
+    
+        height=500,
+    
+        xaxis_title="Year",
+    
+        yaxis_title="USD mn",
+    
+        template="plotly_white",
+    
+        legend=dict(
+            orientation="h",
+            y=1.1
+        ),
+    
+        margin=dict(
+            l=20,
+            r=20,
+            t=20,
+            b=20
+        )
+    
+    )
 
 st.plotly_chart(
     fig,
@@ -312,9 +305,7 @@ st.plotly_chart(
 
 st.markdown("---")
 
-left_col, right_col = st.columns([1, 2])
-
-with left_col:
+with col_right:
 
     st.subheader(
         "Top 5 Suppliers to Brazil (Average 2023–2025)"
@@ -354,7 +345,7 @@ with left_col:
         f"{top5['average 2023-2025'].sum():,.1f}"
     )
 
-with right_col:
+with col_right:
 
     st.subheader(
         "Global Supply Distribution (Average Imports, 2023–2025)"
