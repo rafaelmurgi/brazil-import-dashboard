@@ -79,22 +79,21 @@ market_overview = pd.DataFrame({
 
     "Value": [
 
-        f"{selected_row['Brazilian total annual imports - USD millions']:.1f}",
+    f"{selected_row['Brazilian total annual imports - USD millions']:.1f}",
 
-        f"{selected_row['Brazilian annual imports from Finland - USD millions']:.1f}",
+    f"{selected_row['Brazilian annual imports from Finland - USD millions']:.1f}",
 
-        f"{selected_row[\"Finland's share of Brazilian imports (%)\"]:.1f}",
+    f"{finland_share:.1f}",
 
-        f"{selected_row['Brazil applied tariff (%)']:.1f}",
+    f"{selected_row['Brazil applied tariff (%)']:.1f}",
 
-        f"{selected_row['EU-Mercosur agreement base rate of Brazil']}",
+    f"{selected_row['EU-Mercosur agreement base rate of Brazil']}",
 
-        selected_row["Tariff elimination timeline (years)"],
+    selected_row["Tariff elimination timeline (years)"],
 
-        selected_row["Note"]
+    selected_row["Note"]
 
-    ]
-
+]
 })
 
 st.dataframe(
