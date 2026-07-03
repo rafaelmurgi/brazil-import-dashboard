@@ -13,9 +13,13 @@ def load_data():
         "consolidated_data_trade_br_fi_clean.xlsx"
     )
 
-    return consolidated
+    forecast = pd.read_csv(
+        "forecast_ncm_powerbi.csv"
+    )
 
-consolidated = load_data()
+    return consolidated, forecast
+
+consolidated, forecast = load_data()
 
 st.title(
     "Brazil Imports Intelligence Dashboard – Trade, Tariffs and Forecasts"
