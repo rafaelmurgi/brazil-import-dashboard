@@ -44,6 +44,12 @@ selected_row = consolidated[
     consolidated["NCM Label"] == selected
 ].iloc[0]
 
+selected_code = selected_row["NCM Code"]
+
+fc = forecast[
+    forecast["NCM Code"] == selected_code
+]
+
 # -----------------------
 # Product description
 # -----------------------
@@ -112,3 +118,60 @@ st.dataframe(
     hide_index=True,
     use_container_width=True
 )
+
+st.markdown("---")
+
+st.subheader(
+    "Key Market Indicators"
+)
+
+imports_2025 = fc.loc[
+    fc["Year"] == 2025,
+    "imports_usd_2025"
+].iloc[0]
+
+forecast_2030 = fc.loc[
+    fc["Year"] == 2030,
+    "Forecast"
+].iloc[0]
+
+growth = (
+    (forecast_2030 / imports_2025) - 1
+) * 100
+
+col1, col2, col3 = st.columns(3)
+
+with col1:
+    st.metric(
+        "Brazilian Imports (2025, USD mn)",
+        f"{imports_2025:,.0f}"
+    )
+
+with col2:
+    st.metric(
+        "Projected Imports (2030, USD mn)",
+        f"{forecast_2030:,.0f}"
+    )
+
+with col3:
+
+    if growth >= 0:
+        growth_color = "green"
+    else:
+        growth_color = "red"
+
+    st.markdown(
+        f"""
+        <div style='
+            padding:10px;
+            border:1px solid #d9d9d9;
+            border-radius:5px;
+        '>
+        <strong>Projected Change (2025–2030, %)</strong><br>
+        <span style='color:{growth_color}; font-size:24px;'>
+        {growth:.1f}%
+        </span>
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
