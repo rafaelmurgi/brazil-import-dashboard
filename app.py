@@ -404,7 +404,7 @@ with bottom_left:
             color:#002F87;
             margin-bottom:10px;
         ">
-        Top Suppliers to Brazil (Average 2023–202
+        Top Suppliers to Brazil (Average 2023–2025)
         </h3>
         """,
         unsafe_allow_html=True
@@ -426,8 +426,8 @@ with bottom_left:
         ]
 
         # Round numeric values
-        suppliers_display["Average imports (USD mn)"] = suppliers_display[
-            "Average imports (USD mn)"
+        suppliers_display["Avg. imports (USD mn)"] = suppliers_display[
+            "Avg. imports (USD mn)"
         ].map(
             lambda x: f"{x:.1f}"
             if isinstance(x, (int, float))
@@ -437,7 +437,7 @@ with bottom_left:
        # Add sum row
         sum_row = pd.DataFrame({
             "Country": ["Sum of Top Suppliers"],
-            "Average imports (USD mn)": [
+            "Avg. imports (USD mn)": [
                 f"{top5['average 2023-2025'].sum():.1f}"
             ]
         })
