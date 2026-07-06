@@ -404,7 +404,7 @@ with bottom_left:
             color:#002F87;
             margin-bottom:10px;
         ">
-        Top Suppliers to Brazil (Average 2023–2025)
+        Top Suppliers to Brazil (Avg. 2023–2025)
         </h3>
         """,
         unsafe_allow_html=True
@@ -412,12 +412,12 @@ with bottom_left:
 
     if len(sup) > 0:
         top5 = (
-            sup.sort_values("average 2023-2025", ascending=False)
+            sup.sort_values("Avg. 2023-2025", ascending=False)
             .head(5)
         )
 
         suppliers_display = top5[
-            ["Country", "average 2023-2025"]
+            ["Country", "Avg. 2023-2025"]
         ].copy()
 
         suppliers_display.columns = [
@@ -438,7 +438,7 @@ with bottom_left:
         sum_row = pd.DataFrame({
             "Country": ["Sum of Top Suppliers"],
             "Avg. imports (USD mn)": [
-                f"{top5['average 2023-2025'].sum():.1f}"
+                f"{top5['Avg. 2023-2025'].sum():.1f}"
             ]
         })
         suppliers_display = pd.concat([suppliers_display, sum_row], ignore_index=True)
@@ -477,7 +477,7 @@ with bottom_right:
             color:#002F87;
             margin-bottom:10px;
         ">
-        Global Supply Distribution (Average Imports, 2023–2025)
+        Global Supply Distribution (Avg. Imports, 2023–2025)
         </h3>
         """,
         unsafe_allow_html=True
@@ -490,7 +490,7 @@ with bottom_right:
             map_data,
             locations="Country",
             locationmode="country names",
-            size="average 2023-2025",
+            size="Avg. 2023-2025",
             size_max=15,
             hover_name="Country",
             projection="natural earth"
