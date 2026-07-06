@@ -62,7 +62,7 @@ with header_left:
 with header_right:
 
     st.image(
-    "team_finland_4.png",
+    "team_finland_5.jpg",
     width=140
 )
 
