@@ -63,7 +63,7 @@ with header_right:
 
     st.image(
     "team_finland_6.png",
-    width=180
+    width=100
 )
 
 # -----------------------
