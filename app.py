@@ -156,7 +156,7 @@ else:
 st.markdown("---")
 
 top_left, top_center, top_right = st.columns([1.2, 1.4, 1.2])
-bottom_left, bottom_right = st.columns([1.15, 0.85])
+bottom_left, bottom_right = st.columns([0.8, 1.2])
 
 # ====================================
 # LEFT COLUMN
@@ -491,7 +491,7 @@ with bottom_right:
             locations="Country",
             locationmode="country names",
             size="average 2023-2025",
-            size_max=18,
+            size_max=15,
             hover_name="Country",
             projection="natural earth"
         )
