@@ -62,7 +62,7 @@ with header_left:
 with header_right:
 
     st.image(
-    "team_finland_2.png",
+    "team-finland-logo_blue_cmyk_pdf.pdf",
     width=140
 )
 
