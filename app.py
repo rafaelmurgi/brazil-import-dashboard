@@ -8,14 +8,15 @@ st.set_page_config(
     layout="wide"
 )
 
+
 st.markdown(
     """
     <style>
-        html, body, [class*="css"] {
-            font-family: Arial, sans-serif;
+        html, b*dy, [class*="css"] {
+            f*nt-family: "Segoe UI", Arial, sans*serif;
         }
     </style>
-    """,
+    *"",
     unsafe_allow_html=True
 )
 
@@ -48,7 +49,9 @@ with header_left:
         """
         <h1 style="
             color:#002f87;
-            font-size:24px;
+            font-size:46px;
+            font-weight:700;
+            line-height:1.1;
             font-family: Arial;
             margin-bottom:0px;
         ">
@@ -96,8 +99,21 @@ consolidated["NCM Label"] = (
     + consolidated["NCM Description"]
 )
 
+st.markdown(
+    """
+    <h3 style="
+        color:#002F87;
+        margin-bottom:5px;
+        font-size:28px;
+    ">
+    NCM Code
+    </h3>
+    """,
+    unsafe_allow_html=True
+)
+
 selected = st.selectbox(
-    "NCM Code",
+    "",
     consolidated["NCM Label"].sort_values()
 )
 
@@ -173,18 +189,7 @@ card_style = """
 # ====================================
 
 with top_left:
-
-    st.markdown(
-    """
-    <div style="
-        border:1px solid #D9D9D9;
-        border-radius:8px;
-        padding:12px;
-    ">
-    """,
-    unsafe_allow_html=True
-)
-    
+   
     st.markdown(
     """
     <h3 style="
@@ -227,16 +232,24 @@ with top_left:
 
     })
 
-    st.table(
-    market_overview
-    )
-
-st.markdown(
-    "</div>",
-    unsafe_allow_html=True
-)
-
     
+styled_market = market_overview.style.set_table_styles([
+    {
+        "selector": "th",
+        "props": [
+            ("background-color", "#002F87"),
+            ("color", "white"),
+            ("font-weight", "bold")
+        ]
+    }
+])
+
+st.dataframe(
+    styled_market,
+    use_container_width=True,
+    hide_index=True
+)
+ 
 with top_right:
 
     st.markdown(
@@ -272,7 +285,7 @@ with top_right:
         border-radius:8px;
         padding:12px;
         margin-bottom:10px;
-        background-color:#f8f9fb;
+        background-color:white;
     ">
         <b>Brazilian Imports (2025, USD mn)</b><br>
         <span style="
@@ -410,10 +423,20 @@ with top_center:
 
     fig.update_layout(
     height=350,
-    xaxis_title="Year",
-    yaxis_title="USD mn",
-    template="plotly_white",
+    xaxis=dict(
+    title="Year",
+    showgrid=True,
+    gridcolor="#D9D9D9",
+    griddash="dot"
+    ),
 
+    yaxis=dict(
+    title="USD mn",
+    showgrid=True,
+    gridcolor="#D9D9D9",
+    griddash="dot"
+    ),
+    template="plotly_white",
     
 legend=dict(
     orientation="h",
@@ -470,6 +493,19 @@ with bottom_left:
         "Country",
         "Average imports (USD mn)"
     ]
+    
+suppliers_display.loc[len(suppliers_display)] = [
+while len(suppliers_display) < 8:
+    suppliers_display.loc[len(suppliers_display)] = [
+        "",
+        ""
+    ]
+    "Sum of Top Suppliers",
+    round(
+        top5["average 2023-2025"].sum(),
+        1
+    )
+]
 
     suppliers_display[
         "Average imports (USD mn)"
@@ -477,15 +513,23 @@ with bottom_left:
         "Average imports (USD mn)"
     ].round(1)
 
-    st.table(
-    suppliers_display.reset_index(drop=True)
-    )
+    styled_suppliers = suppliers_display.style.set_table_styles([
+    {
+        "selector": "th",
+        "props": [
+            ("background-color", "#002F87"),
+            ("color", "white")
+        ]
+    }
+])
 
-    st.markdown(
-        f"**Sum of Top Suppliers:** {top5['average 2023-2025'].sum():,.1f}"
-    )
+st.dataframe(
+    styled_suppliers,
+    use_container_width=True,
+    hide_index=True
+)
 
-with bottom_right:
+    with bottom_right:
     
     st.markdown(
     """
@@ -520,27 +564,13 @@ with bottom_right:
 )
     
     fig_map.update_geos(
-    showcountries=True,
-    coastlinecolor="#BFBFBF",
     showcoastlines=True,
+    coastlinecolor="#BFBFBF",
+    showcountries=True,
+    countrycolor="#D0D0D0",
+    showland=True,
+    landcolor="#F2F2F2",
+    showocean=True,
+    oceancolor="#EAF3FB",
     showframe=False
-    )
-
-    fig_map.update_layout(
-
-    height=450,
-
-    margin=dict(
-        l=0,
-        r=0,
-        t=10,
-        b=0
-    ),
-
-    showlegend=False
-    )
-
-    st.plotly_chart(
-        fig_map,
-        use_container_width=True
-    )
+)
