@@ -131,15 +131,19 @@ else:
 
 st.markdown("---")
 
-col_left, col_center, col_right = st.columns(
-    [1.2, 1.6, 1.2]
+top_left, top_center, top_right = st.columns(
+    [1.2, 1.6, 1.0]
+)
+
+bottom_left, bottom_right = st.columns(
+    [1, 1]
 )
 
 # ====================================
 # LEFT COLUMN
 # ====================================
 
-with col_left:
+with top_left:
 
     st.subheader(
         "Market Overview and Tariff Structure"
@@ -181,6 +185,9 @@ with col_left:
         use_container_width=True
     )
 
+    
+with top_right:
+
     st.subheader(
         "Key Market Indicators"
     )
@@ -209,16 +216,37 @@ with col_left:
         f"{forecast_2030:,.0f}"
     )
 
-    st.metric(
-        "Projected Change (2025–2030, %)",
-        f"{growth:.1f}%"
-    )
+    if growth >= 0:
+    growth_color = "green"
+else:
+    growth_color = "red"
+
+st.markdown(
+    f"""
+    <div style="
+        border:1px solid #d9d9d9;
+        border-radius:8px;
+        padding:12px;
+        margin-top:10px;
+    ">
+        <b>Projected Change (2025–2030, %)</b><br>
+        <span style="
+            color:{growth_color};
+            font-size:28px;
+            font-weight:bold;
+        ">
+            {growth:.1f}%
+        </span>
+    </div>
+    """,
+    unsafe_allow_html=True
+)
 
 # ====================================
 # CENTER COLUMN
 # ====================================
 
-with col_center:
+with top_center:
 
     st.subheader(
         "Brazil Imports: Historical Trends and Outlook (1997–2030)"
@@ -278,17 +306,25 @@ with col_center:
     )
 
     fig.update_layout(
-        height=350,
-        xaxis_title="Year",
-        yaxis_title="USD mn",
-        template="plotly_white",
-        margin=dict(
-            l=20,
-            r=20,
-            t=20,
-            b=20
-        )
+    height=420,
+    xaxis_title="Year",
+    yaxis_title="USD mn",
+    template="plotly_white",
+
+    legend=dict(
+        orientation="h",
+        y=1.05,
+        x=0,
+        xanchor="left"
+    ),
+
+    margin=dict(
+        l=20,
+        r=20,
+        t=20,
+        b=20
     )
+)
 
     st.plotly_chart(
         fig,
@@ -299,7 +335,7 @@ with col_center:
 # RIGHT COLUMN
 # ====================================
 
-with col_right:
+with bottom_left:
 
     st.subheader(
         "Top 5 Suppliers to Brazil (Average 2023–2025)"
@@ -338,6 +374,8 @@ with col_right:
         f"**Sum of Top Suppliers:** {top5['average 2023-2025'].sum():,.1f}"
     )
 
+with bottom_right:
+    
     st.subheader(
         "Global Supply Distribution (Average Imports, 2023–2025)"
     )
@@ -356,7 +394,7 @@ with col_right:
 
         hover_name="Country",
 
-        color_continuous_scale="Blues"
+        color_continuous_scale=["#B7CCE3", "#002F87"]
 
     )
 
@@ -368,7 +406,7 @@ with col_right:
     )
 
     fig_map.update_layout(
-        height=350,
+        height=450,
         margin=dict(
             l=0,
             r=0,
