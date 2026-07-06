@@ -8,17 +8,16 @@ st.set_page_config(
     layout="wide"
 )
 
-
 st.markdown(
     """
     <style>
-        html, b*dy, [class*="css"] {
-            f*nt-family: "Segoe UI", Arial, sans*serif;
+        html, body, [class*="css"] {
+            font-family: "Segoe UI", Arial, sans-serif;
         }
     </style>
-    *"",
+    """,
     unsafe_allow_html=True
-)
+    )
 
 @st.cache_data
 def load_data():
@@ -74,12 +73,11 @@ with header_left:
     )
 
 with header_right:
-
     st.image(
-    "team_finland_7.png",
-    width=240
-)
-
+        "team_finland_7.png",
+        width=240
+    )
+    
 # -----------------------
 # NCM selector
 # -----------------------
@@ -530,47 +528,40 @@ st.dataframe(
 )
 
     with bottom_right:
-    
     st.markdown(
-    """
-    <h3 style="
-        color:#002F87;
-        margin-bottom:10px;
-    ">
-    Global Supply Distribution (Average Imports, 2023–2025)
-    </h3>
-    """,
-    unsafe_allow_html=True
+        """
+        <h3 style="
+            color:#002F87;
+            margin-bottom:10px;
+        ">
+        Global Supply Distribution (Average Imports, 2023–2025)
+        </h3>
+        """,
+        unsafe_allow_html=True
     )
 
     map_data = sup.copy()
 
     fig_map = px.scatter_geo(
-
-    map_data,
-
-    locations="Country",
-
-    locationmode="country names",
-
-    size="average 2023-2025",
-
-    size_max=35,
-
-    hover_name="Country",
-
-    projection="natural earth"
-
-)
+        map_data,
+        locations="Country",
+        locationmode="country names",
+        size="average 2023-2025",
+        size_max=35,
+        hover_name="Country",
+        projection="natural earth"
+    )
     
     fig_map.update_geos(
-    showcoastlines=True,
-    coastlinecolor="#BFBFBF",
-    showcountries=True,
-    countrycolor="#D0D0D0",
-    showland=True,
-    landcolor="#F2F2F2",
-    showocean=True,
-    oceancolor="#EAF3FB",
-    showframe=False
-)
+        showcoastlines=True,
+        coastlinecolor="#BFBFBF",
+        showcountries=True,
+        countrycolor="#D0D0D0",
+        showland=True,
+        landcolor="#F2F2F2",
+        showocean=True,
+        oceancolor="#EAF3FB",
+        showframe=False
+    )
+    
+    st.plotly_chart(fig_map, use_container_width=True)
