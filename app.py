@@ -156,7 +156,7 @@ else:
 st.markdown("---")
 
 top_left, top_center, top_right = st.columns([1.2, 1.4, 1.2])
-bottom_left, bottom_right = st.columns([1, 1])
+bottom_left, bottom_right = st.columns([1.15, 0.85])
 
 # ====================================
 # LEFT COLUMN
@@ -404,7 +404,7 @@ with bottom_left:
             color:#002F87;
             margin-bottom:10px;
         ">
-        Top 5 Suppliers to Brazil (Average 2023–2025)
+        Top Suppliers to Brazil (Average 2023–202
         </h3>
         """,
         unsafe_allow_html=True
@@ -422,7 +422,7 @@ with bottom_left:
 
         suppliers_display.columns = [
             "Country",
-            "Average imports (USD mn)"
+            "Avg. imports (USD mn)"
         ]
 
         # Round numeric values
@@ -437,7 +437,9 @@ with bottom_left:
        # Add sum row
         sum_row = pd.DataFrame({
             "Country": ["Sum of Top Suppliers"],
-            "Average imports (USD mn)": [round(top5["average 2023-2025"].sum(), 1)]
+            "Average imports (USD mn)": [
+                f"{top5['average 2023-2025'].sum():.1f}"
+            ]
         })
         suppliers_display = pd.concat([suppliers_display, sum_row], ignore_index=True)
 
@@ -489,7 +491,7 @@ with bottom_right:
             locations="Country",
             locationmode="country names",
             size="average 2023-2025",
-            size_max=35,
+            size_max=18,
             hover_name="Country",
             projection="natural earth"
         )
