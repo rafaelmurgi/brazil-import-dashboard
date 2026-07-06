@@ -150,12 +150,33 @@ bottom_left, bottom_right = st.columns(
     [1, 1]
 )
 
+card_style = """
+<style>
+[data-testid="stVerticalBlock"] > div:has(> div[data-testid="stDataFrame"]) {
+    border: 1px solid #D9D9D9;
+    border-radius: 8px;
+    padding: 10px;
+}
+</style>
+"""
+
 # ====================================
 # LEFT COLUMN
 # ====================================
 
 with top_left:
 
+    st.markdown(
+    """
+    <div style="
+        border:1px solid #D9D9D9;
+        border-radius:8px;
+        padding:12px;
+    ">
+    """,
+    unsafe_allow_html=True
+)
+    
     st.markdown(
     """
     <h3 style="
@@ -201,6 +222,11 @@ with top_left:
     st.table(
     market_overview
     )
+
+st.markdown(
+    "</div>",
+    unsafe_allow_html=True
+)
 
     
 with top_right:
@@ -344,6 +370,7 @@ with top_center:
             y=historical["imports_usd_2025"],
             mode="lines",
             name="Historical",
+            hovertemplate="Year: %{x}<br>Imports: %{y:,.1f} USD mn"
             line=dict(
                 color="#1f77b4",
                 width=3
@@ -357,6 +384,7 @@ with top_center:
             y=forecast_data["Forecast"],
             mode="lines",
             name="Forecast",
+            hovertemplate="Year: %{x}<br>Forecast: %{y:,.1f} USD mn"
             line=dict(
                 color="#1f77b4",
                 width=3,
@@ -373,7 +401,7 @@ with top_center:
     )
 
     fig.update_layout(
-    height=380,
+    height=350,
     xaxis_title="Year",
     yaxis_title="USD mn",
     template="plotly_white",
@@ -465,37 +493,41 @@ with bottom_right:
 
     map_data = sup.copy()
 
-    fig_map = px.choropleth(
+    fig_map = px.scatter_geo(
 
-        map_data,
+    map_data,
 
-        locations="Country",
+    locations="Country",
 
-        locationmode="country names",
+    locationmode="country names",
 
-        color="average 2023-2025",
+    size="average 2023-2025",
 
-        hover_name="Country",
+    hover_name="Country",
 
-        color_continuous_scale=["#B7CCE3", "#002F87"]
+    projection="natural earth"
 
-    )
-
+)
+    
     fig_map.update_geos(
-        showcountries=True,
-        showcoastlines=True,
-        showframe=False,
-        projection_type="natural earth"
+    showcountries=True,
+    coastlinecolor="#BFBFBF",
+    showcoastlines=True,
+    showframe=False
     )
 
     fig_map.update_layout(
-        height=450,
-        margin=dict(
-            l=0,
-            r=0,
-            t=20,
-            b=0
-        )
+
+    height=450,
+
+    margin=dict(
+        l=0,
+        r=0,
+        t=10,
+        b=0
+    ),
+
+    showlegend=False
     )
 
     st.plotly_chart(
