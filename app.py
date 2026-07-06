@@ -68,7 +68,7 @@ with header_left:
 with header_right:
     st.image(
         "team_finland_7.png",
-        width=320
+        width=400
     )
 
 # -----------------------
@@ -463,6 +463,8 @@ with bottom_left:
             axis=1
         )
         
+        st.table(styled_suppliers)
+
 # ====================================
 # BOTTOM RIGHT - World Map
 # ====================================
