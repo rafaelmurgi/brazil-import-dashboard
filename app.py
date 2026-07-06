@@ -400,6 +400,7 @@ with top_center:
 # ====================================
 # BOTTOM LEFT - Top 5 Suppliers
 # ====================================
+
 with bottom_left:
     st.markdown(
         """
@@ -428,20 +429,24 @@ with bottom_left:
             "Average imports (USD mn)"
         ]
 
-        # Add empty rows to reach minimum height of 8
-        while len(suppliers_display) < 8:
-            suppliers_display.loc[len(suppliers_display)] = ["", ""]
+        # Round numeric values
+        suppliers_display["Average imports (USD mn)"] = suppliers_display[
+            "Average imports (USD mn)"
+        ].round(1)
 
-        # Add a row for "Sum of Top Suppliers"
+        # Add empty rows (using pd.NA)
+        while len(suppliers_display) < 8:
+            suppliers_display.loc[len(suppliers_display)] = [pd.NA, pd.NA]
+
+        # Add sum row
         sum_row = pd.DataFrame({
             "Country": ["Sum of Top Suppliers"],
             "Average imports (USD mn)": [round(top5["average 2023-2025"].sum(), 1)]
         })
         suppliers_display = pd.concat([suppliers_display, sum_row], ignore_index=True)
 
-        suppliers_display["Average imports (USD mn)"] = suppliers_display[
-            "Average imports (USD mn)"
-        ].round(1)
+        # Convert pd.NA to empty strings for display
+        suppliers_display = suppliers_display.fillna("")
 
         styled_suppliers = suppliers_display.style.set_table_styles([
             {
@@ -460,7 +465,7 @@ with bottom_left:
         )
     else:
         st.info("No supplier data available for this product.")
-
+        
 # ====================================
 # BOTTOM RIGHT - World Map
 # ====================================
