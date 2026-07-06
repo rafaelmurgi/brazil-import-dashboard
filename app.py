@@ -492,18 +492,16 @@ with bottom_left:
         "Average imports (USD mn)"
     ]
     
-suppliers_display.loc[len(suppliers_display)] = [
+# Add empty rows to reach minimum height of 8
 while len(suppliers_display) < 8:
-    suppliers_display.loc[len(suppliers_display)] = [
-        "",
-        ""
-    ]
-    "Sum of Top Suppliers",
-    round(
-        top5["average 2023-2025"].sum(),
-        1
-    )
-]
+    suppliers_display.loc[len(suppliers_display)] = ["", ""]
+
+# Add a row for "Sum of Top Suppliers"
+sum_row = pd.DataFrame({
+    "Country": ["Sum of Top Suppliers"],
+    "Average imports (USD mn)": [round(top5["average 2023-2025"].sum(), 1)]
+})
+suppliers_display = pd.concat([suppliers_display, sum_row], ignore_index=True)
 
     suppliers_display[
         "Average imports (USD mn)"
