@@ -3,7 +3,7 @@ import pandas as pd
 import plotly.graph_objects as go
 import plotly.express as px
 
-st.set_page_config(F
+st.set_page_config(
     page_title="Brazil Imports Intelligence Dashboard",
     layout="wide"
 )
