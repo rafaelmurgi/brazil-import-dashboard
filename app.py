@@ -62,9 +62,9 @@ with header_left:
 with header_right:
 
     st.image(
-        "images/team finland.jpg",
-        width=140
-    )
+    "team_finland.jpg",
+    width=140
+)
 
 # -----------------------
 # NCM selector
