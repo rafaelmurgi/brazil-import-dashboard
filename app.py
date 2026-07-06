@@ -412,14 +412,13 @@ with bottom_left:
 
     if len(sup) > 0:
         top5 = (
-            sup.sort_values("Avg. 2023-2025", ascending=False)
-            .head(5)
-        )
+           sup.sort_values("average 2023-2025", ascending=False)
+           .head(5)
+       )
 
         suppliers_display = top5[
-            ["Country", "Avg. 2023-2025"]
+            ["Country", "average 2023-2025"]
         ].copy()
-
         suppliers_display.columns = [
             "Country",
             "Avg. imports (USD mn)"
@@ -438,7 +437,7 @@ with bottom_left:
         sum_row = pd.DataFrame({
             "Country": ["Sum of Top Suppliers"],
             "Avg. imports (USD mn)": [
-                f"{top5['Avg. 2023-2025'].sum():.1f}"
+                f"{top5['average 2023-2025'].sum():.1f}"
             ]
         })
         suppliers_display = pd.concat([suppliers_display, sum_row], ignore_index=True)
@@ -490,7 +489,7 @@ with bottom_right:
             map_data,
             locations="Country",
             locationmode="country names",
-            size="Avg. 2023-2025",
+            size="average 2023-2025",
             size_max=15,
             hover_name="Country",
             projection="natural earth"
