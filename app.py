@@ -41,10 +41,10 @@ with header_left:
         """
         <h1 style="
             color:#002f87;
-            font-size:46px;
+            font-size:52px;
             font-weight:700;
             line-height:1.1;
-            font-family: Arial;
+            font-family: "Segoe UI", Arial, sans-serif;
             margin-bottom:0px;
         ">
         Brazil Imports Intelligence Dashboard – Trade, Tariffs and Forecasts
@@ -68,7 +68,7 @@ with header_left:
 with header_right:
     st.image(
         "team_finland_7.png",
-        width=240
+        width=320
     )
 
 # -----------------------
@@ -208,11 +208,7 @@ with top_left:
         }
     ])
 
-    st.dataframe(
-        styled_market,
-        use_container_width=True,
-        hide_index=True
-    )
+    st.table(styled_market)
 
 # ====================================
 # RIGHT COLUMN - Top indicators
@@ -271,7 +267,7 @@ with top_right:
             border-radius:8px;
             padding:12px;
             margin-bottom:10px;
-            background-color:#f8f9fb;
+            background-color:white;
         ">
             <b>Projected Imports (2030, USD mn)</b><br>
             <span style="
@@ -432,13 +428,13 @@ with bottom_left:
         # Round numeric values
         suppliers_display["Average imports (USD mn)"] = suppliers_display[
             "Average imports (USD mn)"
-        ].round(1)
+        ].map(
+            lambda x: f"{x:.1f}"
+            if isinstance(x, (int, float))
+            else x
+        )
 
-        # Add empty rows (using pd.NA)
-        while len(suppliers_display) < 8:
-            suppliers_display.loc[len(suppliers_display)] = [pd.NA, pd.NA]
-
-        # Add sum row
+       # Add sum row
         sum_row = pd.DataFrame({
             "Country": ["Sum of Top Suppliers"],
             "Average imports (USD mn)": [round(top5["average 2023-2025"].sum(), 1)]
@@ -453,18 +449,19 @@ with bottom_left:
                 "selector": "th",
                 "props": [
                     ("background-color", "#002F87"),
-                    ("color", "white")
+                    ("color", "white"),
+                    ("font-weight", "bold")
                 ]
             }
-        ])
-
-        st.dataframe(
-            styled_suppliers,
-            use_container_width=True,
-            hide_index=True
+        ]).apply(
+            lambda row: [
+                "background-color:#6FA8DC;color:white;font-weight:bold"
+                if row["Country"] == "Sum of Top Suppliers"
+                else ""
+                for _ in row
+            ],
+            axis=1
         )
-    else:
-        st.info("No supplier data available for this product.")
         
 # ====================================
 # BOTTOM RIGHT - World Map
