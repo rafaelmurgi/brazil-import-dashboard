@@ -39,7 +39,7 @@ def load_data():
 consolidated, forecast, suppliers = load_data()
 
 header_left, header_right = st.columns(
-    [5, 1]
+    [8, 1]
 )
 
 with header_left:
@@ -48,7 +48,7 @@ with header_left:
         """
         <h1 style="
             color:#002f87;
-            font-size:28px;
+            font-size:24px;
             font-family: Arial;
             margin-bottom:0px;
         ">
@@ -130,7 +130,15 @@ if len(sup) == 0:
 # -----------------------
 
 st.markdown(
-    f"### {selected_row['NCM Description']}"
+    f"""
+    <h2 style="
+        color:#002F87;
+        margin-top:5px;
+    ">
+    {selected_row["NCM Description"]}
+    </h2>
+    """,
+    unsafe_allow_html=True
 )
 
 tariff = selected_row["Brazil applied tariff (%)"]
@@ -143,7 +151,7 @@ else:
 st.markdown("---")
 
 top_left, top_center, top_right = st.columns(
-    [1.2, 1.6, 1.0]
+    [1.2, 1.4, 1.2]
 )
 
 bottom_left, bottom_right = st.columns(
@@ -269,7 +277,7 @@ with top_right:
         <b>Brazilian Imports (2025, USD mn)</b><br>
         <span style="
             color:#002F87;
-            font-size:28px;
+            font-size:38px;
             font-weight:bold;
         ">
         {imports_2025:,.0f}
@@ -291,7 +299,7 @@ with top_right:
         <b>Projected Imports (2030, USD mn)</b><br>
         <span style="
             color:#002F87;
-            font-size:28px;
+            font-size:38px;
             font-weight:bold;
         ">
         {forecast_2030:,.0f}
@@ -317,7 +325,7 @@ with top_right:
             <b>Projected Change (2025–2030, %)</b><br>
             <span style="
                 color:{growth_color};
-                font-size:28px;
+                font-size:38px;
                 font-weight:bold;
             ">
                 {growth:.1f}%
@@ -470,7 +478,7 @@ with bottom_left:
     ].round(1)
 
     st.table(
-    suppliers_display
+    suppliers_display.reset_index(drop=True)
     )
 
     st.markdown(
@@ -502,6 +510,8 @@ with bottom_right:
     locationmode="country names",
 
     size="average 2023-2025",
+
+    size_max=35,
 
     hover_name="Country",
 
