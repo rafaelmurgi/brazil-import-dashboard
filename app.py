@@ -217,30 +217,30 @@ with top_right:
     )
 
     if growth >= 0:
-    growth_color = "green"
-else:
-    growth_color = "red"
+        growth_color = "green"
+    else:
+        growth_color = "red"
 
-st.markdown(
-    f"""
-    <div style="
-        border:1px solid #d9d9d9;
-        border-radius:8px;
-        padding:12px;
-        margin-top:10px;
-    ">
-        <b>Projected Change (2025–2030, %)</b><br>
-        <span style="
-            color:{growth_color};
-            font-size:28px;
-            font-weight:bold;
+    st.markdown(
+        f"""
+        <div style="
+            border:1px solid #d9d9d9;
+            border-radius:8px;
+            padding:12px;
+            margin-top:10px;
         ">
-            {growth:.1f}%
-        </span>
-    </div>
-    """,
-    unsafe_allow_html=True
-)
+            <b>Projected Change (2025–2030, %)</b><br>
+            <span style="
+                color:{growth_color};
+                font-size:28px;
+                font-weight:bold;
+            ">
+                {growth:.1f}%
+            </span>
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
 
 # ====================================
 # CENTER COLUMN
