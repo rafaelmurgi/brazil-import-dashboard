@@ -8,6 +8,17 @@ st.set_page_config(
     layout="wide"
 )
 
+st.markdown(
+    """
+    <style>
+        html, body, [class*="css"] {
+            font-family: Arial, sans-serif;
+        }
+    </style>
+    """,
+    unsafe_allow_html=True
+)
+
 @st.cache_data
 def load_data():
 
@@ -145,10 +156,18 @@ bottom_left, bottom_right = st.columns(
 
 with top_left:
 
-    st.subheader(
-        "Market Overview and Tariff Structure"
+    st.markdown(
+    """
+    <h3 style="
+        color:#002F87;
+        margin-bottom:10px;
+    ">
+    Market Overview and Tariff Structure
+    </h3>
+    """,
+    unsafe_allow_html=True
     )
-
+    
     finland_share = selected_row["Finland's share of Brazilian imports (%)"]
 
     market_overview = pd.DataFrame({
@@ -179,17 +198,23 @@ with top_left:
 
     })
 
-    st.dataframe(
-        market_overview,
-        hide_index=True,
-        use_container_width=True
+    st.table(
+    market_overview
     )
 
     
 with top_right:
 
-    st.subheader(
-        "Key Market Indicators"
+    st.markdown(
+    """
+    <h3 style="
+        color:#002F87;
+        margin-bottom:10px;
+    ">
+    Key Market Indicators
+    </h3>
+    """,
+    unsafe_allow_html=True
     )
 
     imports_2025 = fc.loc[
@@ -206,14 +231,48 @@ with top_right:
         (forecast_2030 / imports_2025) - 1
     ) * 100
 
-    st.metric(
-        "Brazilian Imports (2025, USD mn)",
-        f"{imports_2025:,.0f}"
+    st.markdown(
+    f"""
+    <div style="
+        border:1px solid #d9d9d9;
+        border-radius:8px;
+        padding:12px;
+        margin-bottom:10px;
+        background-color:#f8f9fb;
+    ">
+        <b>Brazilian Imports (2025, USD mn)</b><br>
+        <span style="
+            color:#002F87;
+            font-size:28px;
+            font-weight:bold;
+        ">
+        {imports_2025:,.0f}
+        </span>
+    </div>
+    """,
+    unsafe_allow_html=True
     )
 
-    st.metric(
-        "Projected Imports (2030, USD mn)",
-        f"{forecast_2030:,.0f}"
+    st.markdown(
+    f"""
+    <div style="
+        border:1px solid #d9d9d9;
+        border-radius:8px;
+        padding:12px;
+        margin-bottom:10px;
+        background-color:#f8f9fb;
+    ">
+        <b>Projected Imports (2030, USD mn)</b><br>
+        <span style="
+            color:#002F87;
+            font-size:28px;
+            font-weight:bold;
+        ">
+        {forecast_2030:,.0f}
+        </span>
+    </div>
+    """,
+    unsafe_allow_html=True
     )
 
     if growth >= 0:
@@ -248,8 +307,16 @@ with top_right:
 
 with top_center:
 
-    st.subheader(
-        "Brazil Imports: Historical Trends and Outlook (1997–2030)"
+    st.markdown(
+    """
+    <h3 style="
+        color:#002F87;
+        margin-bottom:10px;
+    ">
+    Brazil Imports: Historical Trends and Outlook (1997–2030)
+    </h3>
+    """,
+    unsafe_allow_html=True
     )
 
     historical = fc[
@@ -306,17 +373,19 @@ with top_center:
     )
 
     fig.update_layout(
-    height=420,
+    height=380,
     xaxis_title="Year",
     yaxis_title="USD mn",
     template="plotly_white",
 
-    legend=dict(
-        orientation="h",
-        y=1.05,
-        x=0,
-        xanchor="left"
-    ),
+    
+legend=dict(
+    orientation="h",
+    y=1.12,
+    x=0,
+    xanchor="left",
+    font=dict(size=12)
+),
 
     margin=dict(
         l=20,
@@ -337,8 +406,16 @@ with top_center:
 
 with bottom_left:
 
-    st.subheader(
-        "Top 5 Suppliers to Brazil (Average 2023–2025)"
+    st.markdown(
+    """
+    <h3 style="
+        color:#002F87;
+        margin-bottom:10px;
+    ">
+    Top 5 Suppliers to Brazil (Average 2023–2025)
+    </h3>
+    """,
+    unsafe_allow_html=True
     )
 
     top5 = (
@@ -364,10 +441,8 @@ with bottom_left:
         "Average imports (USD mn)"
     ].round(1)
 
-    st.dataframe(
-        suppliers_display,
-        hide_index=True,
-        use_container_width=True
+    st.table(
+    suppliers_display
     )
 
     st.markdown(
@@ -376,8 +451,16 @@ with bottom_left:
 
 with bottom_right:
     
-    st.subheader(
-        "Global Supply Distribution (Average Imports, 2023–2025)"
+    st.markdown(
+    """
+    <h3 style="
+        color:#002F87;
+        margin-bottom:10px;
+    ">
+    Global Supply Distribution (Average Imports, 2023–2025)
+    </h3>
+    """,
+    unsafe_allow_html=True
     )
 
     map_data = sup.copy()
