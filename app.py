@@ -27,17 +27,57 @@ def load_data():
 
 consolidated, forecast, suppliers = load_data()
 
-st.title(
-    "Brazil Imports Intelligence Dashboard – Trade, Tariffs and Forecasts"
+header_left, header_right = st.columns(
+    [5, 1]
 )
 
-st.caption(
-    "Product-level insights on Brazilian imports, including trade structure and 5-year forecasts"
-)
+with header_left:
+
+    st.markdown(
+        """
+        <h1 style="
+            color:#002f87;
+            font-size:28px;
+            font-family: Arial;
+            margin-bottom:0px;
+        ">
+        Brazil Imports Intelligence Dashboard – Trade, Tariffs and Forecasts
+        </h1>
+        """,
+        unsafe_allow_html=True
+    )
+
+    st.markdown(
+        """
+        <p style="
+            color:gray;
+            margin-top:0px;
+        ">
+        Product-level insights on Brazilian imports, including trade structure and 5-year forecasts
+        </p>
+        """,
+        unsafe_allow_html=True
+    )
+
+with header_right:
+
+    st.image(
+        "images/team_finland_logo.png",
+        width=140
+    )
 
 # -----------------------
 # NCM selector
 # -----------------------
+st.markdown(
+    """
+    <hr style="
+        margin-top:5px;
+        margin-bottom:15px;
+    ">
+    """,
+    unsafe_allow_html=True
+)
 
 consolidated["NCM Label"] = (
     consolidated["NCM Code"].astype(str)
