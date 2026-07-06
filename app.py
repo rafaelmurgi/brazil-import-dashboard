@@ -17,33 +17,26 @@ st.markdown(
     </style>
     """,
     unsafe_allow_html=True
-    )
+)
 
 @st.cache_data
 def load_data():
-
     consolidated = pd.read_excel(
         "consolidated_data_trade_br_fi_clean.xlsx"
     )
-
     forecast = pd.read_csv(
         "forecast_ncm_powerbi.csv"
     )
-
     suppliers = pd.read_excel(
         "imports_brazil_2023_2025_countries_origin_clean.xlsx"
     )
-
     return consolidated, forecast, suppliers
 
 consolidated, forecast, suppliers = load_data()
 
-header_left, header_right = st.columns(
-    [8, 1]
-)
+header_left, header_right = st.columns([8, 1])
 
 with header_left:
-
     st.markdown(
         """
         <h1 style="
@@ -77,7 +70,7 @@ with header_right:
         "team_finland_7.png",
         width=240
     )
-    
+
 # -----------------------
 # NCM selector
 # -----------------------
@@ -130,8 +123,7 @@ if len(fc) == 0:
     st.stop()
 
 sup = suppliers[
-    suppliers["NCM Code"].astype(str)
-    == str(selected_code)
+    suppliers["NCM Code"].astype(str) == str(selected_code)
 ]
 
 if len(sup) == 0:
@@ -142,7 +134,6 @@ if len(sup) == 0:
 # -----------------------
 # Product description
 # -----------------------
-
 st.markdown(
     f"""
     <h2 style="
@@ -164,48 +155,29 @@ else:
 
 st.markdown("---")
 
-top_left, top_center, top_right = st.columns(
-    [1.2, 1.4, 1.2]
-)
-
-bottom_left, bottom_right = st.columns(
-    [1, 1]
-)
-
-card_style = """
-<style>
-[data-testid="stVerticalBlock"] > div:has(> div[data-testid="stDataFrame"]) {
-    border: 1px solid #D9D9D9;
-    border-radius: 8px;
-    padding: 10px;
-}
-</style>
-"""
+top_left, top_center, top_right = st.columns([1.2, 1.4, 1.2])
+bottom_left, bottom_right = st.columns([1, 1])
 
 # ====================================
 # LEFT COLUMN
 # ====================================
-
 with top_left:
-   
     st.markdown(
-    """
-    <h3 style="
-        color:#002F87;
-        margin-bottom:10px;
-    ">
-    Market Overview and Tariff Structure
-    </h3>
-    """,
-    unsafe_allow_html=True
+        """
+        <h3 style="
+            color:#002F87;
+            margin-bottom:10px;
+        ">
+        Market Overview and Tariff Structure
+        </h3>
+        """,
+        unsafe_allow_html=True
     )
     
     finland_share = selected_row["Finland's share of Brazilian imports (%)"]
 
     market_overview = pd.DataFrame({
-
         "Indicator": [
-
             "Brazilian total annual imports (USD mn)",
             "Brazilian imports from Finland (USD mn)",
             "Finland's share (%)",
@@ -213,11 +185,8 @@ with top_left:
             "EU-Mercosur base rate (%)",
             "Tariff elimination timeline (years)",
             "Note"
-
         ],
-
         "Value": [
-
             f"{selected_row['Brazilian total annual imports - USD millions']:.1f}",
             f"{selected_row['Brazilian annual imports from Finland - USD millions']:.1f}",
             f"{finland_share:.1f}",
@@ -225,41 +194,40 @@ with top_left:
             f"{selected_row['EU-Mercosur agreement base rate of Brazil']}",
             selected_row["Tariff elimination timeline (years)"],
             selected_row["Note"]
-
         ]
-
     })
 
-    
-styled_market = market_overview.style.set_table_styles([
-    {
-        "selector": "th",
-        "props": [
-            ("background-color", "#002F87"),
-            ("color", "white"),
-            ("font-weight", "bold")
-        ]
-    }
-])
+    styled_market = market_overview.style.set_table_styles([
+        {
+            "selector": "th",
+            "props": [
+                ("background-color", "#002F87"),
+                ("color", "white"),
+                ("font-weight", "bold")
+            ]
+        }
+    ])
 
-st.dataframe(
-    styled_market,
-    use_container_width=True,
-    hide_index=True
-)
- 
+    st.dataframe(
+        styled_market,
+        use_container_width=True,
+        hide_index=True
+    )
+
+# ====================================
+# RIGHT COLUMN - Top indicators
+# ====================================
 with top_right:
-
     st.markdown(
-    """
-    <h3 style="
-        color:#002F87;
-        margin-bottom:10px;
-    ">
-    Key Market Indicators
-    </h3>
-    """,
-    unsafe_allow_html=True
+        """
+        <h3 style="
+            color:#002F87;
+            margin-bottom:10px;
+        ">
+        Key Market Indicators
+        </h3>
+        """,
+        unsafe_allow_html=True
     )
 
     imports_2025 = fc.loc[
@@ -272,52 +240,50 @@ with top_right:
         "Forecast"
     ].iloc[0]
 
-    growth = (
-        (forecast_2030 / imports_2025) - 1
-    ) * 100
+    growth = ((forecast_2030 / imports_2025) - 1) * 100
 
     st.markdown(
-    f"""
-    <div style="
-        border:1px solid #d9d9d9;
-        border-radius:8px;
-        padding:12px;
-        margin-bottom:10px;
-        background-color:white;
-    ">
-        <b>Brazilian Imports (2025, USD mn)</b><br>
-        <span style="
-            color:#002F87;
-            font-size:38px;
-            font-weight:bold;
+        f"""
+        <div style="
+            border:1px solid #d9d9d9;
+            border-radius:8px;
+            padding:12px;
+            margin-bottom:10px;
+            background-color:white;
         ">
-        {imports_2025:,.0f}
-        </span>
-    </div>
-    """,
-    unsafe_allow_html=True
+            <b>Brazilian Imports (2025, USD mn)</b><br>
+            <span style="
+                color:#002F87;
+                font-size:38px;
+                font-weight:bold;
+            ">
+            {imports_2025:,.0f}
+            </span>
+        </div>
+        """,
+        unsafe_allow_html=True
     )
 
     st.markdown(
-    f"""
-    <div style="
-        border:1px solid #d9d9d9;
-        border-radius:8px;
-        padding:12px;
-        margin-bottom:10px;
-        background-color:#f8f9fb;
-    ">
-        <b>Projected Imports (2030, USD mn)</b><br>
-        <span style="
-            color:#002F87;
-            font-size:38px;
-            font-weight:bold;
+        f"""
+        <div style="
+            border:1px solid #d9d9d9;
+            border-radius:8px;
+            padding:12px;
+            margin-bottom:10px;
+            background-color:#f8f9fb;
         ">
-        {forecast_2030:,.0f}
-        </span>
-    </div>
-    """,
-    unsafe_allow_html=True
+            <b>Projected Imports (2030, USD mn)</b><br>
+            <span style="
+                color:#002F87;
+                font-size:38px;
+                font-weight:bold;
+            ">
+            {forecast_2030:,.0f}
+            </span>
+        </div>
+        """,
+        unsafe_allow_html=True
     )
 
     if growth >= 0:
@@ -347,33 +313,25 @@ with top_right:
     )
 
 # ====================================
-# CENTER COLUMN
+# CENTER COLUMN - Chart
 # ====================================
-
 with top_center:
-
     st.markdown(
-    """
-    <h3 style="
-        color:#002F87;
-        margin-bottom:10px;
-    ">
-    Brazil Imports: Historical Trends and Outlook (1997–2030)
-    </h3>
-    """,
-    unsafe_allow_html=True
+        """
+        <h3 style="
+            color:#002F87;
+            margin-bottom:10px;
+        ">
+        Brazil Imports: Historical Trends and Outlook (1997–2030)
+        </h3>
+        """,
+        unsafe_allow_html=True
     )
 
-    historical = fc[
-        fc["Type"] == "Historical"
-    ]
-
-    forecast_only = fc[
-        fc["Type"] == "Forecast"
-    ].copy()
+    historical = fc[fc["Type"] == "Historical"]
+    forecast_only = fc[fc["Type"] == "Forecast"].copy()
 
     bridge_row = historical.tail(1).copy()
-
     bridge_row["Forecast"] = bridge_row["imports_usd_2025"]
 
     forecast_data = pd.concat(
@@ -384,17 +342,14 @@ with top_center:
     fig = go.Figure()
 
     fig.add_trace(
-    go.Scatter(
-        x=historical["Year"],
-        y=historical["imports_usd_2025"],
-        mode="lines",
-        name="Historical",
-        hovertemplate="Year: %{x}<br>Imports: %{y:,.1f} USD mn",
-        line=dict(
-            color="#1f77b4",
-            width=3
+        go.Scatter(
+            x=historical["Year"],
+            y=historical["imports_usd_2025"],
+            mode="lines",
+            name="Historical",
+            hovertemplate="Year: %{x}<br>Imports: %{y:,.1f} USD mn",
+            line=dict(color="#1f77b4", width=3)
         )
-    )
     )
 
     fig.add_trace(
@@ -404,11 +359,7 @@ with top_center:
             mode="lines",
             name="Forecast",
             hovertemplate="Year: %{x}<br>Forecast: %{y:,.1f} USD mn",
-            line=dict(
-                color="#1f77b4",
-                width=3,
-                dash="dash"
-            )
+            line=dict(color="#1f77b4", width=3, dash="dash")
         )
     )
 
@@ -420,112 +371,100 @@ with top_center:
     )
 
     fig.update_layout(
-    height=350,
-    xaxis=dict(
-    title="Year",
-    showgrid=True,
-    gridcolor="#D9D9D9",
-    griddash="dot"
-    ),
-
-    yaxis=dict(
-    title="USD mn",
-    showgrid=True,
-    gridcolor="#D9D9D9",
-    griddash="dot"
-    ),
-    template="plotly_white",
-    
-legend=dict(
-    orientation="h",
-    y=1.12,
-    x=0,
-    xanchor="left",
-    font=dict(size=12)
-),
-
-    margin=dict(
-        l=20,
-        r=20,
-        t=20,
-        b=20
-    )
-)
-
-    st.plotly_chart(
-        fig,
-        use_container_width=True
+        height=350,
+        xaxis=dict(
+            title="Year",
+            showgrid=True,
+            gridcolor="#D9D9D9",
+            griddash="dot"
+        ),
+        yaxis=dict(
+            title="USD mn",
+            showgrid=True,
+            gridcolor="#D9D9D9",
+            griddash="dot"
+        ),
+        template="plotly_white",
+        legend=dict(
+            orientation="h",
+            y=1.12,
+            x=0,
+            xanchor="left",
+            font=dict(size=12)
+        ),
+        margin=dict(l=20, r=20, t=20, b=20)
     )
 
-# ====================================
-# RIGHT COLUMN
-# ====================================
+    st.plotly_chart(fig, use_container_width=True)
 
+# ====================================
+# BOTTOM LEFT - Top 5 Suppliers
+# ====================================
 with bottom_left:
-
     st.markdown(
-    """
-    <h3 style="
-        color:#002F87;
-        margin-bottom:10px;
-    ">
-    Top 5 Suppliers to Brazil (Average 2023–2025)
-    </h3>
-    """,
-    unsafe_allow_html=True
+        """
+        <h3 style="
+            color:#002F87;
+            margin-bottom:10px;
+        ">
+        Top 5 Suppliers to Brazil (Average 2023–2025)
+        </h3>
+        """,
+        unsafe_allow_html=True
     )
 
-    top5 = (
-        sup.sort_values(
-            "average 2023-2025",
-            ascending=False
+    if len(sup) > 0:
+        top5 = (
+            sup.sort_values("average 2023-2025", ascending=False)
+            .head(5)
         )
-        .head(5)
-    )
 
-    suppliers_display = top5[
-        ["Country", "average 2023-2025"]
-    ].copy()
+        suppliers_display = top5[
+            ["Country", "average 2023-2025"]
+        ].copy()
 
-    suppliers_display.columns = [
-        "Country",
-        "Average imports (USD mn)"
-    ]
-    
-# Add empty rows to reach minimum height of 8
-while len(suppliers_display) < 8:
-    suppliers_display.loc[len(suppliers_display)] = ["", ""]
-
-# Add a row for "Sum of Top Suppliers"
-sum_row = pd.DataFrame({
-    "Country": ["Sum of Top Suppliers"],
-    "Average imports (USD mn)": [round(top5["average 2023-2025"].sum(), 1)]
-})
-suppliers_display = pd.concat([suppliers_display, sum_row], ignore_index=True)
-
-    suppliers_display[
-        "Average imports (USD mn)"
-    ] = suppliers_display[
-        "Average imports (USD mn)"
-    ].round(1)
-
-    styled_suppliers = suppliers_display.style.set_table_styles([
-    {
-        "selector": "th",
-        "props": [
-            ("background-color", "#002F87"),
-            ("color", "white")
+        suppliers_display.columns = [
+            "Country",
+            "Average imports (USD mn)"
         ]
-    }
-])
 
-st.dataframe(
-    styled_suppliers,
-    use_container_width=True,
-    hide_index=True
-)
+        # Add empty rows to reach minimum height of 8
+        while len(suppliers_display) < 8:
+            suppliers_display.loc[len(suppliers_display)] = ["", ""]
 
-    with bottom_right:
+        # Add a row for "Sum of Top Suppliers"
+        sum_row = pd.DataFrame({
+            "Country": ["Sum of Top Suppliers"],
+            "Average imports (USD mn)": [round(top5["average 2023-2025"].sum(), 1)]
+        })
+        suppliers_display = pd.concat([suppliers_display, sum_row], ignore_index=True)
+
+        suppliers_display["Average imports (USD mn)"] = suppliers_display[
+            "Average imports (USD mn)"
+        ].round(1)
+
+        styled_suppliers = suppliers_display.style.set_table_styles([
+            {
+                "selector": "th",
+                "props": [
+                    ("background-color", "#002F87"),
+                    ("color", "white")
+                ]
+            }
+        ])
+
+        st.dataframe(
+            styled_suppliers,
+            use_container_width=True,
+            hide_index=True
+        )
+    else:
+        st.info("No supplier data available for this product.")
+
+# ====================================
+# BOTTOM RIGHT - World Map
+# ====================================
+with bottom_right:
     st.markdown(
         """
         <h3 style="
@@ -538,28 +477,31 @@ st.dataframe(
         unsafe_allow_html=True
     )
 
-    map_data = sup.copy()
+    if len(sup) > 0:
+        map_data = sup.copy()
 
-    fig_map = px.scatter_geo(
-        map_data,
-        locations="Country",
-        locationmode="country names",
-        size="average 2023-2025",
-        size_max=35,
-        hover_name="Country",
-        projection="natural earth"
-    )
-    
-    fig_map.update_geos(
-        showcoastlines=True,
-        coastlinecolor="#BFBFBF",
-        showcountries=True,
-        countrycolor="#D0D0D0",
-        showland=True,
-        landcolor="#F2F2F2",
-        showocean=True,
-        oceancolor="#EAF3FB",
-        showframe=False
-    )
-    
-    st.plotly_chart(fig_map, use_container_width=True)
+        fig_map = px.scatter_geo(
+            map_data,
+            locations="Country",
+            locationmode="country names",
+            size="average 2023-2025",
+            size_max=35,
+            hover_name="Country",
+            projection="natural earth"
+        )
+
+        fig_map.update_geos(
+            showcoastlines=True,
+            coastlinecolor="#BFBFBF",
+            showcountries=True,
+            countrycolor="#D0D0D0",
+            showland=True,
+            landcolor="#F2F2F2",
+            showocean=True,
+            oceancolor="#EAF3FB",
+            showframe=False
+        )
+
+        st.plotly_chart(fig_map, use_container_width=True)
+    else:
+        st.info("No supplier data available to display on map.")
