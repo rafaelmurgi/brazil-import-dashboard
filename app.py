@@ -365,17 +365,17 @@ with top_center:
     fig = go.Figure()
 
     fig.add_trace(
-        go.Scatter(
-            x=historical["Year"],
-            y=historical["imports_usd_2025"],
-            mode="lines",
-            name="Historical",
-            hovertemplate="Year: %{x}<br>Imports: %{y:,.1f} USD mn"
-            line=dict(
-                color="#1f77b4",
-                width=3
-            )
+    go.Scatter(
+        x=historical["Year"],
+        y=historical["imports_usd_2025"],
+        mode="lines",
+        name="Historical",
+        hovertemplate="Year: %{x}<br>Imports: %{y:,.1f} USD mn",
+        line=dict(
+            color="#1f77b4",
+            width=3
         )
+    )
     )
 
     fig.add_trace(
@@ -384,7 +384,7 @@ with top_center:
             y=forecast_data["Forecast"],
             mode="lines",
             name="Forecast",
-            hovertemplate="Year: %{x}<br>Forecast: %{y:,.1f} USD mn"
+            hovertemplate="Year: %{x}<br>Forecast: %{y:,.1f} USD mn",
             line=dict(
                 color="#1f77b4",
                 width=3,
