@@ -155,7 +155,7 @@ else:
 
 st.markdown("---")
 
-top_left, top_center, top_right = st.columns([1.2, 1.4, 1.2])
+top_left, top_center, top_right = st.columns([1.5, 1.4, 1.0])
 bottom_left, bottom_right = st.columns([0.8, 1.2])
 
 # ====================================
@@ -187,8 +187,8 @@ with top_left:
             "Note"
         ],
         "Value": [
-            f"{selected_row['Brazilian total annual imports - USD millions']:.1f}",
-            f"{selected_row['Brazilian annual imports from Finland - USD millions']:.1f}",
+            f"{selected_row['Brazilian total annual imports - USD millions']:,.1f}"
+            f"{selected_row['Brazilian annual imports from Finland - USD millions']:,.1f}"
             f"{finland_share:.1f}",
             tariff_display,
             f"{selected_row['EU-Mercosur agreement base rate of Brazil']}",
@@ -209,6 +209,9 @@ with top_left:
     ])
 
     st.table(styled_market)
+    st.caption(
+    "For Brazilian total annual imports and Brazilian imports from Finland, values refer to the average between 2023 and 2025."
+)
 
 # ====================================
 # RIGHT COLUMN - Top indicators
@@ -428,7 +431,7 @@ with bottom_left:
         suppliers_display["Avg. imports (USD mn)"] = suppliers_display[
             "Avg. imports (USD mn)"
         ].map(
-            lambda x: f"{x:.1f}"
+            lambda x: f"{x:,.1f}"
             if isinstance(x, (int, float))
             else x
         )
@@ -437,7 +440,7 @@ with bottom_left:
         sum_row = pd.DataFrame({
             "Country": ["Sum of Top Suppliers"],
             "Avg. imports (USD mn)": [
-                f"{top5['average 2023-2025'].sum():.1f}"
+                f"{top5['average 2023-2025'].sum():,.1f}"
             ]
         })
         suppliers_display = pd.concat([suppliers_display, sum_row], ignore_index=True)
@@ -510,3 +513,9 @@ with bottom_right:
         st.plotly_chart(fig_map, use_container_width=True)
     else:
         st.info("No supplier data available to display on map.")
+
+st.markdown("---")
+
+st.caption(
+    "Sources: Brazil's Ministry of Development, Industry, Trade and Services (Comex Stat), Brazil's Foreign Trade Chamber (Camex), European Commission (CIRCABC) and US Bureau of Labor Statistics."
+)
