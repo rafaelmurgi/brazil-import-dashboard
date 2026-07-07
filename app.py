@@ -444,8 +444,8 @@ with bottom_left:
         ]
 
         # Round numeric values
-        suppliers_display["Avg. imports (USD mn)"] = suppliers_display[
-    "Avg. imports (USD mn)"
+        suppliers_display["USD mn"] = suppliers_display[
+    "USD mn"
 ].apply(
     lambda x: f"{x:,.1f}" if pd.notnull(x) and x != "" else ""
 )
@@ -453,7 +453,7 @@ with bottom_left:
         # Add sum row
         sum_row = pd.DataFrame({
     "Country": ["Sum of Top Suppliers"],
-    "Avg. imports (USD mn)": [
+    "USD mn": [
         f"{top5['average 2023-2025'].sum():,.1f}"
     ]
 })
@@ -486,7 +486,7 @@ with bottom_left:
                 **{"text-align": "left"}
             )
             .set_properties(
-                subset=["Avg. imports (USD mn)"],
+                subset=["USD mn"],
                 **{"text-align": "right"}
             )
         )
