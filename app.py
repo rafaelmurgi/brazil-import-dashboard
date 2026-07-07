@@ -441,8 +441,10 @@ with bottom_left:
 
         # Round numeric values
         suppliers_display["Avg. imports (USD mn)"] = suppliers_display[
-            "Avg. imports (USD mn)"
-        ].round(1)
+    "Avg. imports (USD mn)"
+].apply(
+    lambda x: f"{x:,.1f}" if pd.notnull(x) and x != "" else ""
+)
 
         # Add empty rows
         while len(suppliers_display) < 8:
@@ -450,9 +452,11 @@ with bottom_left:
 
         # Add sum row
         sum_row = pd.DataFrame({
-            "Country": ["Sum of Top Suppliers"],
-            "Avg. imports (USD mn)": [round(top5["average 2023-2025"].sum(), 1)]
-        })
+    "Country": ["Sum of Top Suppliers"],
+    "Avg. imports (USD mn)": [
+        f"{top5['average 2023-2025'].sum():,.1f}"
+    ]
+})
         suppliers_display = pd.concat([suppliers_display, sum_row], ignore_index=True)
 
         # Apply all styling
@@ -487,11 +491,8 @@ with bottom_left:
             )
         )
 
-        st.dataframe(
-            styled_suppliers,
-            use_container_width=True,
-            hide_index=True
-        )
+        st.table(styled_suppliers)
+        
     else:
         st.info("No supplier data available for this product.")
 
