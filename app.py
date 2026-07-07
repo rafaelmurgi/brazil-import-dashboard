@@ -217,11 +217,7 @@ with top_left:
     )
 )
 
-    st.dataframe(
-        styled_market,
-        hide_index=True,
-        use_container_width=True
-    )
+    st.table(styled_market)
 
     if pd.notna(selected_row["Note"]) and str(selected_row["Note"]).strip() != "-":
         st.caption(
@@ -495,11 +491,7 @@ with bottom_left:
             )
         )
 
-        st.dataframe(
-    styled_suppliers,
-    hide_index=True,
-    use_container_width=True
-)
+        st.table(styled_suppliers)
         
     else:
         st.info("No supplier data available for this product.")
