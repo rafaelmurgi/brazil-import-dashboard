@@ -156,7 +156,7 @@ else:
 st.markdown("---")
 
 top_left, top_center, top_right = st.columns([1.5, 1.4, 1.0])
-bottom_left, bottom_right = st.columns([0.8, 1.2])
+bottom_left, bottom_right = st.columns([0.9, 1.1])
 
 # ====================================
 # LEFT COLUMN
@@ -418,7 +418,7 @@ with bottom_left:
             color:#002F87;
             margin-bottom:10px;
         ">
-        Top 5 Suppliers to Brazil (Average 2023–2025)
+        Top Suppliers to Brazil (Avg. 2023–2025)
         </h3>
         """,
         unsafe_allow_html=True
@@ -445,10 +445,6 @@ with bottom_left:
 ].apply(
     lambda x: f"{x:,.1f}" if pd.notnull(x) and x != "" else ""
 )
-
-        # Add empty rows
-        while len(suppliers_display) < 8:
-            suppliers_display.loc[len(suppliers_display)] = ["", ""]
 
         # Add sum row
         sum_row = pd.DataFrame({
