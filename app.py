@@ -196,8 +196,10 @@ with top_left:
             selected_row["Note"]
         ]
     })
-
-    styled_market = market_overview.style.set_table_styles([
+  
+    styled_market = (
+    market_overview.style
+    .set_table_styles([
         {
             "selector": "th",
             "props": [
@@ -416,7 +418,7 @@ with bottom_left:
             color:#002F87;
             margin-bottom:10px;
         ">
-        Top Suppliers to Brazil (Avg. 2023–2025)
+        Top 5 Suppliers to Brazil (Average 2023–2025)
         </h3>
         """,
         unsafe_allow_html=True
@@ -424,13 +426,14 @@ with bottom_left:
 
     if len(sup) > 0:
         top5 = (
-           sup.sort_values("average 2023-2025", ascending=False)
-           .head(5)
-       )
+            sup.sort_values("average 2023-2025", ascending=False)
+            .head(5)
+        )
 
         suppliers_display = top5[
             ["Country", "average 2023-2025"]
         ].copy()
+
         suppliers_display.columns = [
             "Country",
             "Avg. imports (USD mn)"
@@ -439,53 +442,58 @@ with bottom_left:
         # Round numeric values
         suppliers_display["Avg. imports (USD mn)"] = suppliers_display[
             "Avg. imports (USD mn)"
-        ].map(
-            lambda x: f"{x:,.1f}"
-            if isinstance(x, (int, float))
-            else x
-        )
+        ].round(1)
 
-       # Add sum row
+        # Add empty rows
+        while len(suppliers_display) < 8:
+            suppliers_display.loc[len(suppliers_display)] = ["", ""]
+
+        # Add sum row
         sum_row = pd.DataFrame({
             "Country": ["Sum of Top Suppliers"],
-            "Avg. imports (USD mn)": [
-                f"{top5['average 2023-2025'].sum():,.1f}"
-            ]
+            "Avg. imports (USD mn)": [round(top5["average 2023-2025"].sum(), 1)]
         })
         suppliers_display = pd.concat([suppliers_display, sum_row], ignore_index=True)
 
-        # Convert pd.NA to empty strings for display
-        suppliers_display = suppliers_display.fillna("")
-
-        styled_suppliers = suppliers_display.style.set_table_styles([
-            {
-                "selector": "th",
-                "props": [
-                    ("background-color", "#002F87"),
-                    ("color", "white"),
-                    ("font-weight", "bold")
-                ]
-            }
-        ]).apply(
-            lambda row: [
-                "background-color:#6FA8DC;color:white;font-weight:bold"
-                if row["Country"] == "Sum of Top Suppliers"
-                else ""
-                for _ in row
-            ],
-            axis=1
+        # Apply all styling
+        styled_suppliers = (
+            suppliers_display.style
+            .set_table_styles([
+                {
+                    "selector": "th",
+                    "props": [
+                        ("background-color", "#002F87"),
+                        ("color", "white"),
+                        ("font-weight", "bold")
+                    ]
+                }
+            ])
+            .apply(
+                lambda row: [
+                    "background-color: #6FA8DC; color: white; font-weight: bold"
+                    if row["Country"] == "Sum of Top Suppliers"
+                    else ""
+                    for _ in row
+                ],
+                axis=1
+            )
+            .set_properties(
+                subset=["Country"],
+                **{"text-align": "left"}
+            )
+            .set_properties(
+                subset=["Avg. imports (USD mn)"],
+                **{"text-align": "right"}
+            )
         )
-        .set_properties(
-        subset=["Country"],
-        {"text-align": "left"}
-    )
-        .set_properties(
-        subset=["Avg. imports (USD mn)"],
-        {"text-align": "right"}
-    )
-)
-        
-        st.table(styled_suppliers)
+
+        st.dataframe(
+            styled_suppliers,
+            use_container_width=True,
+            hide_index=True
+        )
+    else:
+        st.info("No supplier data available for this product.")
 
 # ====================================
 # BOTTOM RIGHT - World Map
