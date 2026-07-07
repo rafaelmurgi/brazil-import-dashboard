@@ -211,11 +211,11 @@ with top_left:
     ])
     .set_properties(
         subset=["Indicator"],
-        {"text-align": "left"}
+        **{"text-align": "left"}
     )
     .set_properties(
         subset=["Value"],
-        {"text-align": "right"}
+        **{"text-align": "right"}
     )
 )
 
