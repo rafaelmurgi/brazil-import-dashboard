@@ -187,8 +187,8 @@ with top_left:
             "Note"
         ],
         "Value": [
-            f"{selected_row['Brazilian total annual imports - USD millions']:,.1f}"
-            f"{selected_row['Brazilian annual imports from Finland - USD millions']:,.1f}"
+            f"{selected_row['Brazilian total annual imports - USD millions']:,.1f}",
+            f"{selected_row['Brazilian annual imports from Finland - USD millions']:,.1f}",
             f"{finland_share:.1f}",
             tariff_display,
             f"{selected_row['EU-Mercosur agreement base rate of Brazil']}",
