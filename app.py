@@ -218,17 +218,19 @@ with top_left:
 )
 
     st.dataframe(
-    styled_market,
-    hide_index=True,
-    use_container_width=True
-)
-    if pd.notna(selected_row["Note"]) and str(selected_row["Note"]).strip() != "-":
-    st.caption(
-        f"Note: {selected_row['Note']}"
+        styled_market,
+        hide_index=True,
+        use_container_width=True
     )
+
+    if pd.notna(selected_row["Note"]) and str(selected_row["Note"]).strip() != "-":
+        st.caption(
+            f"Note: {selected_row['Note']}"
+        )
+
     st.caption(
-    "For Brazilian total annual imports and Brazilian imports from Finland, values refer to the average between 2023 and 2025."
-)
+        "For Brazilian total annual imports and Brazilian imports from Finland, values refer to the average between 2023 and 2025."
+    )
 
 # ====================================
 # RIGHT COLUMN - Top indicators
