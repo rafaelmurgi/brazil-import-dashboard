@@ -156,7 +156,7 @@ else:
 st.markdown("---")
 
 top_left, top_center, top_right = st.columns([1.5, 1.4, 1.0])
-bottom_left, bottom_right = st.columns([0.9, 1.1])
+bottom_left, bottom_right = st.columns([0.7, 1.3])
 
 # ====================================
 # LEFT COLUMN
@@ -440,7 +440,7 @@ with bottom_left:
 
         suppliers_display.columns = [
             "Country",
-            "Avg. imports (USD mn)"
+            "USD mn"
         ]
 
         # Round numeric values
