@@ -207,6 +207,15 @@ with top_left:
             ]
         }
     ])
+    .set_properties(
+        subset=["Indicator"],
+        {"text-align": "left"}
+    )
+    .set_properties(
+        subset=["Value"],
+        {"text-align": "right"}
+    )
+)
 
     st.table(styled_market)
     st.caption(
@@ -466,6 +475,15 @@ with bottom_left:
             ],
             axis=1
         )
+        .set_properties(
+        subset=["Country"],
+        {"text-align": "left"}
+    )
+        .set_properties(
+        subset=["Avg. imports (USD mn)"],
+        {"text-align": "right"}
+    )
+)
         
         st.table(styled_suppliers)
 
