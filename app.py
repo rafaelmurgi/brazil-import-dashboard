@@ -178,23 +178,21 @@ with top_left:
 
     market_overview = pd.DataFrame({
         "Indicator": [
-            "Brazilian total annual imports (USD mn)",
-            "Brazilian imports from Finland (USD mn)",
-            "Finland's share (%)",
-            "Brazil applied tariff (%)",
-            "EU-Mercosur base rate (%)",
-            "Tariff elimination timeline (years)",
-            "Note"
-        ],
+    "Brazilian total annual imports (USD mn)",
+    "Brazilian imports from Finland (USD mn)",
+    "Finland's share (%)",
+    "Brazil applied tariff (%)",
+    "EU-Mercosur base rate (%)",
+    "Tariff elimination timeline (years)"
+],
         "Value": [
-            f"{selected_row['Brazilian total annual imports - USD millions']:,.1f}",
-            f"{selected_row['Brazilian annual imports from Finland - USD millions']:,.1f}",
-            f"{finland_share:.1f}",
-            tariff_display,
-            f"{selected_row['EU-Mercosur agreement base rate of Brazil']}",
-            selected_row["Tariff elimination timeline (years)"],
-            selected_row["Note"]
-        ]
+    f"{selected_row['Brazilian total annual imports - USD millions']:,.1f}",
+    f"{selected_row['Brazilian annual imports from Finland - USD millions']:,.1f}",
+    f"{finland_share:.1f}",
+    tariff_display,
+    f"{selected_row['EU-Mercosur agreement base rate of Brazil']}",
+    selected_row["Tariff elimination timeline (years)"]
+]
     })
   
     styled_market = (
@@ -219,7 +217,15 @@ with top_left:
     )
 )
 
-    st.table(styled_market)
+    st.dataframe(
+    styled_market,
+    hide_index=True,
+    use_container_width=True
+)
+    if pd.notna(selected_row["Note"]) and str(selected_row["Note"]).strip() != "-":
+    st.caption(
+        f"Note: {selected_row['Note']}"
+    )
     st.caption(
     "For Brazilian total annual imports and Brazilian imports from Finland, values refer to the average between 2023 and 2025."
 )
@@ -487,7 +493,11 @@ with bottom_left:
             )
         )
 
-        st.table(styled_suppliers)
+        st.dataframe(
+    styled_suppliers,
+    hide_index=True,
+    use_container_width=True
+)
         
     else:
         st.info("No supplier data available for this product.")
