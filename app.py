@@ -544,5 +544,5 @@ with bottom_right:
 st.markdown("---")
 
 st.caption(
-    "Sources: Brazil's Ministry of Development, Industry, Trade and Services (Comex Stat), Brazil's Foreign Trade Chamber (Camex), European Commission (CIRCABC), US Bureau of Labor Statistics, Brazilian Institute of Geography and Statistics (IBGE) and Central Bank of Brazil."
+    "Sources: Brazil's Ministry of Development, Industry, Trade and Services (Comex Stat), Brazil's Foreign Trade Chamber (CAMEX), European Commission (CIRCABC), US Bureau of Labor Statistics (BLS), Brazilian Institute of Geography and Statistics (IBGE) and Central Bank of Brazil (BCB)."
 )
