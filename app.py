@@ -435,11 +435,12 @@ with bottom_left:
 
     if len(sup) > 0:
         top5 = (
-            sup.groupby("Country", as_index=False)        
-              ["average 2023-2025"]
-              .sum()
-              .sort_values("average 2023-2025", ascending=False)
-              .head(5)
+            sup[
+                ["Country", "average 2023-2025"]
+        ]
+        .drop_duplicates()
+        .sort_values("average 2023-2025", ascending=False)
+        .head(5)
         )
             
         suppliers_display = top5[
