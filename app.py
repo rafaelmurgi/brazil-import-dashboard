@@ -148,10 +148,15 @@ st.markdown(
 
 tariff = selected_row["Brazil applied tariff (%)"]
 
-if tariff == int(tariff):
-    tariff_display = f"{int(tariff)}"
-else:
-    tariff_display = f"{tariff:.1f}"
+try:
+    if pd.isna(tariff):
+        tariff_display = "N/A"
+    elif float(tariff).is_integer():
+        tariff_display = f"{int(tariff)}"
+    else:
+        tariff_display = f"{float(tariff):.1f}"
+except:
+    tariff_display = "N/A"
 
 st.markdown("---")
 
