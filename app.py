@@ -23,16 +23,27 @@ st.markdown(
 def load_data():
     consolidated = pd.read_excel(
         "consolidated_data_trade_br_fi_clean.xlsx"
+        dtype={"NCM Code": str}
     )
     forecast = pd.read_csv(
         "forecast_ncm_powerbi.csv"
+        dtype={"NCM Code": str}
     )
     suppliers = pd.read_excel(
         "imports_brazil_2023_2025_countries_origin_clean.xlsx"
+        dtype={"NCM Code": str}
     )
     return consolidated, forecast, suppliers
 
 consolidated, forecast, suppliers = load_data()
+
+# Ensure NCM codes always have 8 digits
+for df in [consolidated, forecast, suppliers]:
+    df["NCM Code"] = (
+        df["NCM Code"]
+        .astype(str)
+        .str.zfill(8)
+    )
 
 header_left, header_right = st.columns([8, 1])
 
