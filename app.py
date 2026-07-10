@@ -22,17 +22,20 @@ st.markdown(
 @st.cache_data
 def load_data():
     consolidated = pd.read_excel(
-        "consolidated_data_trade_br_fi_clean.xlsx"
+        "consolidated_data_trade_br_fi_clean.xlsx",
         dtype={"NCM Code": str}
     )
+    
     forecast = pd.read_csv(
-        "forecast_ncm_powerbi.csv"
+        "forecast_ncm_powerbi.csv",
         dtype={"NCM Code": str}
     )
+    
     suppliers = pd.read_excel(
-        "imports_brazil_2023_2025_countries_origin_clean.xlsx"
+        "imports_brazil_2023_2025_countries_origin_clean.xlsx",
         dtype={"NCM Code": str}
     )
+    
     return consolidated, forecast, suppliers
 
 consolidated, forecast, suppliers = load_data()
