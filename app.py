@@ -11,8 +11,7 @@ st.set_page_config(
 
 components.html(
     """
-    <!-- Google tag (gtag.js) -->
-    <script async srcetagmanager.com/gtag/js?id=G-XXXXXXXXXXscript>
+    <script async src="https://www.googletagmanagerY15YRQDT0script>
 
     <script>
       window.dataLayer = window.dataLayer || [];
