@@ -11,6 +11,22 @@ st.set_page_config(
 
 components.html(
     """
+    <!-- Google tag (gtag.js) -->
+    <script async srcetagmanager.com/gtag/js?id=G-XXXXXXXXXXscript>
+
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-DY15YRQDT0');
+    </script>
+    """,
+    height=0,
+)
+
+components.html(
+    """
     <script type="text/javascript">
         (function(c,l,a,r,i,t,y){
             c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
