@@ -10,14 +10,13 @@ st.set_page_config(
 )
 
 components.html(
-    """
-    <script async src="https://www.googletagmanagerY15YRQDT0script>
+    https://www.googletagmanager.com/gtag/js?id=G-DY15YRQDT0script>
 
     <script>
       window.dataLayer = window.dataLayer || [];
 
-      function gtag(){
-        dataLayer.push(arguments);
+      function gtag() {
+          dataLayer.push(arguments);
       }
 
       gtag('js', new Date());
