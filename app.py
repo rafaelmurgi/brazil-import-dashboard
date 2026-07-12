@@ -10,9 +10,8 @@ st.set_page_config(
 )
 
 components.html(
-    https://www.googletagmanager.com/gtag/js?id=G-DY15YRQDT0script>
-
-    <script>
+    """
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-DY15YRQript>
       window.dataLayer = window.dataLayer || [];
 
       function gtag() {
